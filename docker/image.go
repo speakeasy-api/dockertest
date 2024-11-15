@@ -507,6 +507,7 @@ type BuildImageOptions struct {
 	Platform            string             `qs:"platform" ver:"1.32"`
 	Outputs             string             `qs:"outputs" ver:"1.40"`
 	ExtraHosts          string             `qs:"extrahosts" ver:"1.28"`
+	Version             string             `qs:"version" ver:"1.40"`
 	Context             context.Context
 }
 
@@ -636,7 +637,6 @@ func (c *Client) TagImage(name string, opts TagImageOptions) error {
 	resp, err := c.do("POST", "/images/"+name+"/tag?"+queryString(&opts), doOptions{
 		context: opts.Context,
 	})
-
 	if err != nil {
 		return err
 	}
@@ -659,7 +659,7 @@ func isURL(u string) bool {
 }
 
 func headersWithAuth(auths ...registryAuth) (map[string]string, error) {
-	var headers = make(map[string]string)
+	headers := make(map[string]string)
 
 	for _, auth := range auths {
 		if auth.isEmpty() {

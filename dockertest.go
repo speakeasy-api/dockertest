@@ -19,9 +19,7 @@ import (
 	options "github.com/ory/dockertest/v3/docker/opts"
 )
 
-var (
-	ErrNotInContainer = errors.New("not running in container")
-)
+var ErrNotInContainer = errors.New("not running in container")
 
 // Pool represents a connection to the docker API and is used to create and remove docker images.
 type Pool struct {
@@ -345,8 +343,8 @@ func (d *Pool) BuildAndRunWithBuildOptions(buildOpts *BuildOptions, runOpts *Run
 		BuildArgs:    buildOpts.BuildArgs,
 		Platform:     buildOpts.Platform,
 		AuthConfigs:  buildOpts.Auth,
+		Version:      "2",
 	})
-
 	if err != nil {
 		return nil, err
 	}
@@ -520,7 +518,6 @@ func (d *Pool) ContainerByName(containerName string) (*Resource, bool) {
 			"name": {containerName},
 		},
 	})
-
 	if err != nil {
 		return nil, false
 	}
